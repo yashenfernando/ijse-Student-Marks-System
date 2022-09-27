@@ -1,0 +1,933 @@
+
+import java.util.*;
+class Example{
+
+	public static int[] rankIndex ={};
+    public static void main(String args[]){
+        String [] stuName = new String [0];
+        String [] stuId = new String [0];
+        int[][] marks = new int[0][2];
+        homeScreen(stuId,stuName,marks);
+    }
+
+
+    public static void homeScreen(String[] stuId, String[] stuName,int[][]marks){
+        clearConsole();
+
+        Scanner input = new Scanner(System.in);
+
+        //home page heading design
+        System.out.println("-----------------------------------------------------------------------------------------");
+			System.out.println("|\t\t\t\t\tMAIN MANU\t\t\t\t\t|");
+			System.out.println("-----------------------------------------------------------------------------------------");
+			
+			System.out.println();
+			
+			System.out.print("[1] Add New Student");
+			System.out.println("\t\t\t[2] Add New Student With Marks");
+			System.out.print("[3] Add Marks");
+			System.out.println("\t\t\t\t[4] Update Student Details");
+			System.out.print("[5] Update Marks");
+			System.out.println("\t\t\t[6] Delete Student");
+			System.out.print("[7] Print Student Details");
+			System.out.println("\t\t[8] Print Student Ranks");
+			System.out.print("[9] Best in Programming Fundamentals");
+			System.out.println("\t[10] Best in Database Management System");
+			
+			
+        int n;
+
+        do
+        {
+            System.out.print("\n\n enter option key to continue > :  ");
+            n = input.nextInt();
+            if (n<11 && n>0)
+            {
+                clearConsole();
+                break;
+            }else{
+                System.out.println("Wrong input Your enterd.....");
+                continue;
+            }
+        } while (true);
+
+        switch(n){
+            case 1 : addStudents(stuId,stuName,marks);break;
+            case 2 : addStudentWithMarks(stuId,stuName,marks);break;
+            case 3 : addMarks(stuId,stuName,marks);break;
+            case 4 : updateStudentDetails(stuId,stuName,marks);break;
+            case 5 : updateMarks(stuId,stuName,marks);break;
+            case 6 : deleteDetails(stuId,stuName,marks); break;
+            case 7 : printStudentDetails(stuId,stuName,marks); break;
+            case 8 : studentRank(stuId,stuName,marks);break;
+            case 9 : bestInPrf(stuId,stuName,marks);break;
+            case 10 :bestInDbms(stuId,stuName,marks);break;
+            default: System.out.println("Invalied input....  try again");homeScreen(stuId,stuName,marks);
+        }
+    }
+
+
+    public final static void clearConsole() {
+
+        try {
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
+            // Handle any exceptions.
+        }
+    }
+
+    //add student
+    public static void addStudents(String[] stuId ,String[] stuName,int[][]marks){
+        Scanner input = new Scanner(System.in);
+        clearConsole();
+
+
+        // heading design
+        System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tADD NEW STUDENT\t\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+
+        boolean flag = true;
+
+        L1:do{
+
+            String[] temp1 = new String [stuId.length+1];
+            String[] temp2 = new String [stuName.length+1];
+            int[][] temp3 = new int [stuId.length+1][2];
+
+            for (int j = 0; j < stuId.length; j++)
+            {
+                temp1[j]=stuId[j];
+                temp2[j]=stuName[j];
+
+            }
+            
+            
+
+
+            System.out.print("enter student id : ");
+            String stu_id = input.nextLine();
+
+            L2:for (int i = 0; i < stuName.length; i++)
+            {
+                if (stuId[i].equals(stu_id))
+                {
+                    System.out.println(stu_id +" is allready exists ! ");
+                    continue L1;
+                }
+            }
+
+
+
+            System.out.print("enter student name : ");
+            String stu_name = input.nextLine();
+
+            temp1[temp1.length-1]=stu_id;
+            temp2[temp2.length-1]=stu_name;
+
+            System.out.print("new student added succesfully ! .");
+
+
+
+            stuId=temp1;
+            stuName=temp2;
+            marks = temp3;
+            
+            
+
+            System.out.print("do you want add one more student : [y/n]    :  ");
+            String answer = input.nextLine();
+
+            System.out.println("\n\n");
+
+            if (answer.equals("y"))
+            {
+                flag = true;
+                
+            }else if(answer.equals("n")){
+                flag = false;
+                
+            }else{
+				
+                System.out.println("wrong input !....");
+                flag = true;
+                
+            }
+        }while(flag);
+
+        homeScreen(stuId,stuName,marks);
+
+
+    }
+    
+    
+    
+    public static void addStudentWithMarks(String[] stuId , String[] stuName , int[][] marks){
+
+
+        Scanner input = new Scanner(System.in);
+        clearConsole();
+
+
+        //home page heading design
+        System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tADD NEW STUDENT WITH MARKS\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+
+        boolean flag = true;
+
+        L1:do{
+
+            //increment array size using tem array
+            String[] temp1 = new String [stuId.length+1];
+            String[] temp2 = new String [stuName.length+1];
+            int[][] temp3 = new int[stuId.length+1][2];
+
+            //copy data
+            for (int j = 0; j < stuId.length; j++)
+            {
+                temp1[j]=stuId[j];
+                temp2[j]=stuName[j];
+            }
+
+            for (int k = 0; k < marks.length; k++)
+            {
+                temp3[k][0]=marks[k][0];
+                temp3[k][1]=marks[k][1];
+            }
+
+
+
+            System.out.print("enter student id : ");
+            String stu_id = input.nextLine();
+
+            L2:for (int i = 0; i < stuName.length; i++)
+            {
+                if (stuId[i].equals(stu_id))
+                {
+                    System.out.println(stu_id +" is allready exists ! \n\n ");
+                    continue L1;
+                }
+            }
+
+            System.out.print("enter student name : ");
+            String stu_name = input.nextLine();
+
+            temp1[temp1.length-1]=stu_id;
+            temp2[temp2.length-1]=stu_name;
+
+            System.out.print("new student added succesfully ! .");
+
+
+            //assign new array address
+            stuId=temp1;
+            stuName=temp2;
+            marks=temp3;
+            System.out.println("\n\n");
+
+            int prf_marks,dbms_marks;
+
+            L3:do
+            {
+                System.out.print("input prf marks : ");
+                prf_marks = input.nextInt();
+
+                if (prf_marks>=0 && prf_marks<101)
+                {
+                    System.out.print(" inpput dbms marks : ");
+                    dbms_marks = input.nextInt();
+                    if (dbms_marks<101 && dbms_marks>=0)
+                    {
+                        System.out.println("added new student sucsessfully.");
+                    }else{
+                        System.out.println("invalied input ! \n\n ");
+                        continue L3;
+                    }
+                    break L3;
+                }else{
+                    System.out.println("invalied input ! \n\n ");
+                    continue L3;
+                }
+
+            } while (true);
+
+            //find student id index for add marks for right possion.
+            int index=0;
+            L4:for (int i = 0; i < stuId.length; i++)
+            {
+                if (stu_id.equals(stuId[i]))
+                {
+                    index=i;
+                    break L4;
+                }
+            }
+
+            marks[index][0]=prf_marks;
+            marks[index][1]=dbms_marks;
+
+
+            input.nextLine();
+            System.out.print("do you want add one more student : [y/n]    :  ");
+            String answer = input.nextLine();
+
+            System.out.println("\n\n");
+
+            if (answer.equals("y"))
+            {
+                flag = true;
+                //clearConsole();
+            }else if(answer.equals("n")){
+                flag = false;
+            }else{
+                System.out.println("wrong input !....");
+                flag = true;
+            }
+        }while(flag);
+
+        homeScreen(stuId,stuName,marks);
+
+    }
+
+
+    public static void addMarks(String[] stuId, String[] stuName, int [][]marks ){
+        Scanner input = new Scanner(System.in);
+
+        //heading design
+        System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tADD MARKS\t\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println();
+
+        boolean flag=false;
+        L1:do
+        {
+			flag = false;
+
+            System.out.print("\n enter student id : ");
+            String stu_id = input.nextLine();
+            
+            //search student id is exists
+            if (isExists(stu_id,stuId))
+			{
+				
+			
+
+				int index=0;
+				L2:for (int i = 0; i < stuId.length; i++)
+				{
+					if (stu_id.equals(stuId[i]))
+					{
+						index = i;
+						break L2;
+
+					}
+				}
+				
+				
+				
+				int prf_marks=0,dbms_marks=0;
+					
+					
+				if (marks[index][0]==0 && marks[index][1]==0)
+				{
+
+					L3:do{
+						if (marks[index][0]==0 && marks[index][1]==0)
+						{
+							System.out.print("\n\n input marks for prf : ");
+							prf_marks = input.nextInt();
+
+							if (prf_marks<101 && prf_marks>=0)
+							{
+								System.out.print("input marks for dbms : ");
+								dbms_marks = input.nextInt();
+
+								if (dbms_marks<101 && dbms_marks>=0){
+									break L3;
+								}else{
+									System.out.println("invalied input !");
+									continue L3;
+								}
+
+							}else{
+
+								System.out.println("invalied input !");
+								continue L3;
+
+							}
+
+						}else{
+
+							System.out.println(" no student at this id !");
+							continue L1;
+						}
+							
+					}while(true);		
+
+				}else{
+						
+					System.out.println("\nThis Sdudent's marks have been already add.");
+					System.out.println("If you want ti update the marks, please use [4] Update Marks option.");
+						
+						
+						
+				}
+				
+				
+			marks[index][0]=prf_marks;
+            marks[index][1]=dbms_marks;
+			
+		
+		}else{
+			
+				System.out.println("this student not regesterd ! ");
+		}	
+				
+			
+
+            
+            System.out.print("\n Are you want add marks for another student [y/n] : ");
+            String ans=input.nextLine();
+            if (ans.equals("y"))
+            {
+                flag = true;
+            }
+
+
+        } while (flag);
+
+        clearConsole();
+        homeScreen(stuId , stuName , marks);
+
+    }
+
+    public static void printStudentDetails(String[] stuId , String[] stuName, int[][]marks){
+        Scanner input = new Scanner(System.in);
+        
+        System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tPRINT STUDENT DETAILS\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+        
+        boolean flag=false;
+        String ans;
+        L1:do {
+            flag=false;
+            String stid;
+            int index = 0;
+            System.out.print("enter student id : ");
+            stid = input.nextLine();
+            if(isExists(stid,stuId)){
+				
+
+				for (int i = 0; i < stuId.length; i++) {
+					if (stid.equals(stuId[i])) {
+						index = i;
+					}
+				}
+				System.out.println("student name is : "+stuName[index]);
+
+					System.out.println("\n+----------------------------------+--------------------+");
+					System.out.printf("|Programming Fundamentals Marks    |%20d|\n",marks[index][0]);
+					System.out.printf("|Database Manegment System Marks   |%20d|\n",marks[index][1]);
+					System.out.printf("|Total Marks			   |%20d|\n",marks[index][0]+marks[index][1]);
+					System.out.printf("|Avg. Marks  			   |%20.2f|\n",(marks[index][0]+marks[index][1])/2.0);
+					System.out.printf("|Rank				  |%20d|\n",stRank(stid,stuId,marks));
+					System.out.println("+----------------------------------+--------------------+");
+			}else{
+				
+				System.out.println("\nMarks yet to be add");
+			}		
+
+            System.out.print("are you want search another student recode [y/n] : ");
+            ans = input.nextLine();
+
+            if (ans.equals("y")) {
+                flag = true;
+            }
+
+
+        } while (flag);
+
+
+        homeScreen(stuId , stuName , marks);
+
+    }
+    
+    
+    public static int stRank(String stu_id,String[] stuId,int[][]marks){
+		int index=0;
+		for (int i = 0; i <stuId.length ; i++)
+		{
+			if (stuId[i].equals(stu_id))
+			{
+				index=i;
+			}
+		}
+		
+		double[][] temp = new double[stuId.length][3];
+		for (int i = 0; i < stuId.length; i++)
+		{
+			temp[i][0]=i;
+			temp[i][1]=marks[i][0]+marks[i][1];
+			temp[i][2]=(marks[i][0]+marks[i][1])/2.0;
+		}
+		
+		for(int i=1; i<temp.length; i++){
+			for(int j=0; j<i; j++){
+				if(temp[i][2]<temp[j][2]){
+					double t1=temp[i][1];
+					temp[i][1]=temp[j][1];
+					temp[j][1]=t1;
+					
+					double t0=temp[i][0];
+					temp[i][0]=temp[j][0];
+					temp[j][0]=t0;
+					
+					double t2=temp[i][2];
+					temp[i][2]=temp[j][2];
+					temp[j][2]=t2;
+				}
+			}
+		}
+		
+		rankIndex =new int[stuId.length];
+		for (int a = stuId.length-1; a>=0; a--)
+		{
+			
+			rankIndex[a]=stuId.length-a;
+		}
+		for (int i = 0; i < rankIndex.length; i++)
+		{
+			if (rankIndex[i]==index)
+			{
+				return i+1;
+			}
+		}
+		
+		return 1;
+		
+	}
+
+    public static int findStuTot(int index , int [][]marks){
+
+        int tot = marks[index][0]+marks[index][1];
+        return tot;
+
+
+    }
+
+    public static boolean isExists(String key , String[] stuId){
+
+        boolean inTheArray = false;
+        for (int i =0;i<stuId.length ;i++ ) {
+            if (stuId[i].equals(key)) {
+                inTheArray=true;
+            }
+        }
+        return inTheArray;
+    }
+
+    //update marks
+    public static void updateMarks(String [] stuId,String[] stuName , int[][]marks){
+
+        clearConsole();
+        Scanner input = new Scanner (System.in);
+        
+        System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tUPDATE STUDENT MARKS \t\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+        
+        
+        boolean flag;
+
+        L1:do{
+				flag=false;
+				System.out.print("enter student id : ");
+				String stu_id = input.nextLine();
+				
+				if (isExists(stu_id,stuId))
+				{
+					
+				
+
+					L2:do {
+
+						for (int j = 0; j < stuId.length; j++) {
+							if (stu_id.equals(stuId[j])) {
+								break L2;
+							}
+						}
+						System.out.println("this student not regesterd .");
+						continue L1;//run time error
+					} while (true);
+
+					//find index
+					int index=0;
+					for (int i=0; i<stuId.length;i++){
+						if (stu_id.equals(stuId[i])){
+							index =i;
+							break;
+						}
+					}
+
+					//update marks
+					int prf_marks,dbms_marks;
+					L3:do {
+						System.out.print("\n\n input new marks for prf : ");
+						prf_marks = input.nextInt();
+
+						if (prf_marks < 101 && prf_marks >= 0) {
+							System.out.print("input new  marks for dbms : ");
+							dbms_marks = input.nextInt();
+
+							if (dbms_marks < 101 && dbms_marks >= 0) {
+								break L3;
+							} else {
+								System.out.println("invalied input !");
+								continue L3;
+							}
+
+						} else {
+
+							System.out.println("invalied input !");
+							continue L3;
+						}
+					}while(true);
+					
+					marks[index][0]=prf_marks;
+					marks[index][1]=dbms_marks;
+					
+				}else{
+					System.out.println("wrong student id !");
+				}	
+
+				System.out.print("are you want to update one more recode [y/n] : ");
+				String ans=input.nextLine();
+				if (ans.equals("y")){
+					flag=true;
+				}
+
+
+
+            }while(flag);
+
+
+
+
+        homeScreen(stuId,stuName,marks);
+    }
+
+    public static void deleteDetails(String[] stuId, String[] stuName, int[][] marks){
+        clearConsole();
+        
+        System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tDELETE STUDENT DETAILS\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+        
+        
+        Scanner input = new Scanner(System.in);
+        boolean flag;
+        L1:do {
+            flag = false;
+            System.out.print("enter student id : ");
+            String stu_id = input.nextLine();
+
+			if(isExists(stu_id,stuId)){
+				
+
+				//find index
+				System.out.println("30% completed");
+				int index = 0;
+				for (int i = 0; i < stuId.length; i++) {
+					if (stu_id.equals(stuId[i])) {
+						index = i;
+						break;
+					}
+				}
+				System.out.println("35% completed");
+				String[]tempId = new String[stuId.length-1];
+				String[]tempName = new String[stuName.length-1];
+				int[][]tempMarks = new int[stuId.length-1][2];
+				System.out.println("37% completed");
+				//copy data
+				for (int k =0; k<stuId.length;k++){
+					if (k!=index){
+						tempId[k]=stuId[k];
+						tempName[k]=stuName[k];
+						tempMarks[k][0]=marks[k][0];
+						tempMarks[k][1]=marks[k][1];
+
+
+					}else{
+						k--;
+					}
+				}
+				System.out.println("40% completed");
+				stuId=tempId;
+				stuName=tempName;
+				marks=tempMarks;
+				System.out.println("50% completed");
+			}else{
+			
+				System.out.println("wrong student id ! \n");
+				
+			}	
+
+            System.out.print("are you want delete another recode [y/n] :");
+            String ans = input.nextLine();
+            if (ans.equals("y")){
+				System.out.println("80% completed");
+                flag=true;
+            }
+            System.out.println("90% completed");
+        }while(flag);
+        System.out.println("100% completed");
+        homeScreen(stuId,stuName,marks);
+    }
+    
+    public static void bestInPrf(String[] stuId , String[] stuName , int[][]marks){
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t       Best in Programming Fundamentals\t\t\t        |");
+		System.out.println("-----------------------------------------------------------------------------------------");
+		
+		int[][] tempMarks=new int[marks.length][3];
+		for (int i = 0; i < tempMarks.length; i++)
+		{
+			tempMarks[i][0]=i;
+			tempMarks[i][1]=marks[i][0];
+			tempMarks[i][2]=marks[i][1];
+		}
+		
+		
+		for(int i=1; i<tempMarks.length; i++){
+			for(int j=0; j<i; j++){
+				if(tempMarks[i][1]<tempMarks[j][1]){
+					int t1=tempMarks[i][1];
+					tempMarks[i][1]=tempMarks[j][1];
+					tempMarks[j][1]=t1;
+					
+					int t0=tempMarks[i][0];
+					tempMarks[i][0]=tempMarks[j][0];
+					tempMarks[j][0]=t0;
+					
+					int t2=tempMarks[i][2];
+					tempMarks[i][2]=tempMarks[j][2];
+					tempMarks[j][2]=t2;
+				}
+			}
+		}
+
+		
+		
+		
+		System.out.println("+------+----------------------+----------+------------+");
+		System.out.printf("|%-6s|%-22s|%-10s|%-12s|\n","ID","Name","PRF Marks","DBMS Marks");
+		System.out.println("+------+----------------------+----------+------------+");
+		int index=0;
+		for (int a = tempMarks.length-1; a>=0; a--)
+		{
+			index = tempMarks[a][0];
+			System.out.printf("|%-6s|%-22s|%-10d|%-12d|\n",stuId[index],stuName[index],marks[index][0],marks[index][1]);
+			
+		}
+		System.out.println("+------+----------------------+----------+------------+");
+		
+		String ans;
+		System.out.print("are you want go to home page [y/n]");
+		ans = input.nextLine();
+		
+		if(ans.equals("y")){
+			homeScreen(stuId,stuName,marks);
+		}else{
+			homeScreen(stuId,stuName,marks);
+		}
+	}
+	
+	
+	
+	public static void bestInDbms(String[] stuId , String[] stuName , int[][]marks){
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t       Best in          D  .  B  .  M  .  S\t\t        |");
+		System.out.println("-----------------------------------------------------------------------------------------");
+		
+		int[][] tempMarks=new int[marks.length][3];
+		for (int i = 0; i < tempMarks.length; i++)
+		{
+			tempMarks[i][0]=i;
+			tempMarks[i][1]=marks[i][0];
+			tempMarks[i][2]=marks[i][1];
+		}
+		
+		
+		for(int i=1; i<tempMarks.length; i++){
+			for(int j=0; j<i; j++){
+				if(tempMarks[i][2]<tempMarks[j][2]){
+					int t1=tempMarks[i][1];
+					tempMarks[i][1]=tempMarks[j][1];
+					tempMarks[j][1]=t1;
+					
+					int t0=tempMarks[i][0];
+					tempMarks[i][0]=tempMarks[j][0];
+					tempMarks[j][0]=t0;
+					
+					int t2=tempMarks[i][2];
+					tempMarks[i][2]=tempMarks[j][2];
+					tempMarks[j][2]=t2;
+				}
+			}
+		}
+
+		
+		
+		
+		System.out.println("+------+----------------------+----------+------------+");
+		System.out.printf("|%-6s|%-22s|%-10s|%-12s|\n","ID","Name","DBMS Marks","PRF Marks");
+		System.out.println("+------+----------------------+----------+------------+");
+		int index=0;
+		for (int a = tempMarks.length-1; a>=0; a--)
+		{
+			index = tempMarks[a][0];
+			System.out.printf("|%-6s|%-22s|%-10d|%-12d|\n",stuId[index],stuName[index],marks[index][1],marks[index][0]);
+			
+		}
+		System.out.println("+------+----------------------+----------+------------+");
+		
+		String ans;
+		System.out.print("are you want go to home page [y/n]");
+		ans = input.nextLine();
+		
+		if(ans.equals("y")){
+			homeScreen(stuId,stuName,marks);
+		}else{
+			homeScreen(stuId,stuName,marks);
+		}
+	}
+	
+	
+	
+	public static void updateStudentDetails(String[] stuId , String[] stuName, int[][]marks){
+		clearConsole();
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\tUPDATE STUDENT DETAILS\t\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+		
+		boolean flag;
+		
+		L1:do
+		{
+			flag = false;
+			System.out.print("enter student id : ");
+			String stu_id = input.nextLine();
+			int index=0;
+			if (isExists(stu_id,stuId))
+			{
+				for (int i = 0; i < stuId.length; i++)
+				{
+					if (stu_id.equals(stuId[i]))
+					{
+						index=i;
+						break;
+					}
+				}
+				
+			}else{
+				System.out.println("not regesterd this id ");
+				continue L1;
+			}
+			System.out.print("enter new stu id : ");
+			stuId[index]=input.nextLine();
+			System.out.print("enter new stu name : ");
+			stuName[index]=input.nextLine();
+			
+			String ans;
+			System.out.print("are you want update one more recode [y/n] : ");
+			ans = input.nextLine();
+			if (ans.equals("y"))
+			{
+				flag = true;
+			}
+			
+			
+		} while (flag);
+		homeScreen(stuId,stuName,marks);
+		
+		
+	}
+	
+	
+	
+	public static void studentRank(String[] stuId, String[] stuName , int[][]marks){
+		clearConsole();
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("|\t\t\t\t\t STUDENT RANK TABLE\t\t\t\t|");
+		System.out.println("-----------------------------------------------------------------------------------------");
+		
+		double[][] temp = new double[stuId.length][3];
+		for (int i = 0; i < stuId.length; i++)
+		{
+			temp[i][0]=i;
+			temp[i][1]=marks[i][0]+marks[i][1];
+			temp[i][2]=(marks[i][0]+marks[i][1])/2.0;
+		}
+		
+		for(int i=1; i<temp.length; i++){
+			for(int j=0; j<i; j++){
+				if(temp[i][2]<temp[j][2]){
+					double t1=temp[i][1];
+					temp[i][1]=temp[j][1];
+					temp[j][1]=t1;
+					
+					double t0=temp[i][0];
+					temp[i][0]=temp[j][0];
+					temp[j][0]=t0;
+					
+					double t2=temp[i][2];
+					temp[i][2]=temp[j][2];
+					temp[j][2]=t2;
+				}
+			}
+		}
+		
+		
+		
+		System.out.println("+------+----------------------+----------+------------+");
+		//System.out.printf("|%-3s|%-3s|%-22s|%-10s|%-12s|\n","ID","Name","DBMS Marks","PRF Marks");
+		System.out.println("+------+----------------------+----------+------------+");
+		
+		rankIndex =new int[stuId.length];
+		for (int a = stuId.length-1; a>=0; a--)
+		{
+			System.out.print((stuId.length-a)+"\t"+stuId[(int)temp[a][0]]+"\t"+stuName[(int)temp[a][0]]+"\t"+(int)temp[a][1]+"\t"+temp[a][2]+"\n");
+			rankIndex[a]=stuId.length-a;
+		}
+		System.out.println("+------+----------------------+----------+------------+");
+		
+		String ans;
+		System.out.print("are you want go to home page [y/n]");
+		ans = input.nextLine();
+		
+		if(ans.equals("y")){
+			homeScreen(stuId,stuName,marks);
+		}else{
+			homeScreen(stuId,stuName,marks);
+		}
+	}
+
+
+
+}
